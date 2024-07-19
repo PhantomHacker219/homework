@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="main_part">
+    <h1>Password</h1>
+    <form id="passwordForm">
+        <input type="password" maxlength="1024" required minlength="8" id="input">
+        <div class="eyes">
+            <i class="fa-solid fa-eye-slash toggle-icon show" id="close"></i>
+            <i class="fa-solid fa-eye toggle-icon" id="show"></i>
+        </div>
+    </form>
+    
+    <div class="wraper">
+        <h4>Password should be </h4>
+        <div class="checks">
+            <div class="chek_line"><i class="fa-solid fa-check"></i> <p>At least 8 characters long</p></div>
+            <div class="chek_line"><i class="fa-solid fa-check"></i> <p>At least 1 number</p></div>
+            <div class="chek_line"><i class="fa-solid fa-check"></i> <p>At least 1 lowercase letter</p></div>
+            <div class="chek_line"><i class="fa-solid fa-check"></i> <p>At least 1 Uppercase letter</p></div>
+            <div class="chek_line"><i class="fa-solid fa-check"></i> <p>At least 1 special character</p></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="./app.js"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCY5i5FFt0rjqa66BvoiMN1J3IqVl3tXmw",
+        authDomain: "app-data-30c46.firebaseapp.com",
+        databaseURL: "https://app-data-30c46-default-rtdb.firebaseio.com",
+        projectId: "app-data-30c46",
+        storageBucket: "app-data-30c46.appspot.com",
+        messagingSenderId: "160746682086",
+        appId: "1:160746682086:web:97485533aa5521af53ad27",
+        measurementId: "G-GQZLDWV46R"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase(app);
+
+    let form = document.getElementById("passwordForm");
+    let inp = document.getElementById("input");
+
+    function appData(e) {
+        e.preventDefault();
+        
+        let passwordValue = inp.value;
+
+        set(ref(db, "homework/" + passwordValue), {
+            password: passwordValue
+        })
+        .then(() => {
+            alert("Success!");
+        })
+        .catch((error) => {
+            alert("Failed!");
+            console.log(error);
+        });
+
+        inp.value = "";
+    }
+
+    form.addEventListener("submit", appData);
+</script>
+</body>
+</html>
